@@ -1,0 +1,36 @@
+# Nama workflow yang akan muncul di tab Actions
+name: Build PHP Vendor Folder
+
+# Pemicu: Jalankan workflow ini setiap kali ada push ke branch 'main'
+on:
+  push:
+    branches: [ "main" ]
+
+# Definisikan pekerjaan yang akan dijalankan
+jobs:
+  build:
+    # Gunakan server virtual Ubuntu terbaru dari GitHub
+    runs-on: ubuntu-latest
+
+    steps:
+      # Langkah 1: 'Checkout' atau unduh kode dari repository Anda ke server virtual
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Langkah 2: Siapkan lingkungan PHP dan Composer menggunakan Action populer
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+
+      # Langkah 3: Jalankan Composer Install untuk mengunduh dependensi
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-dev --optimize-autoloader
+
+      # Langkah 4: Unggah folder 'vendor' yang sudah jadi sebagai artifact
+      - name: Upload vendor artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vendor-folder # Ini akan menjadi nama file ZIP yang diunduh
+          path: vendor/      # Folder yang akan di-zip dan disimpa
