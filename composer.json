@@ -2,9 +2,10 @@
   "require": {
     "guzzlehttp/guzzle": "^7.8",
     "woocommerce/action-scheduler": "^3.7"
-  }
+  },
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true
     }
   }
+}
